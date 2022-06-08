@@ -1,0 +1,25 @@
+{
+  "name": "vite-test",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bootstrap": "^5.1.3",
+    "sortablejs": "^1.15.0",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.15",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "eslint": "^8.16.0",
+    "eslint-plugin-vue": "^9.0.1",
+    "sass": "^1.52.2",
+    "vite": "^2.9.9"
+  }
+}
