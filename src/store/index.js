@@ -12,7 +12,8 @@ export default createStore( {
   state() {
     return {
       todos: [],
-      loading: false
+      loading: false,
+      order: 0
     }
   },
   mutations: {
@@ -26,6 +27,15 @@ export default createStore( {
     },
     addTodo(state, payload) {
       state.todos.push(payload)
+    },
+    setOrderTodos(state) {
+      state.order = state.todos.length
+    },
+    reorderTodos(state, payload) {
+      const { oldIndex, newIndex } = payload
+      const clone = { ...state.todos[oldIndex] }
+      state.todos.splice(oldIndex, 1)
+      state.todos.splice(newIndex, 0, clone)
     }
   },
   actions: {
@@ -52,15 +62,18 @@ export default createStore( {
         })
       }
     },
-    async createTodo({ commit }, title) {
+    async createTodo({ state, commit }, title) {
+      commit('setOrderTodos')
       const res = await axios({
         url: END_POINT,
         method: 'POST',
         headers,
         data: {
-          title
+          title,
+          order: state.order
         }
       })
+      console.log(res.data)
       commit('addTodo', res.data)
     },
     async editTodo(context, todo) {
@@ -75,7 +88,8 @@ export default createStore( {
         }
       })
     },
-    async deleteTodo({ dispatch }, id) {
+    async deleteTodo({ commit, dispatch }, id) {
+      commit('setOrderTodos')
       await axios({
       url: `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${id}`,
       method: 'DELETE',
@@ -83,6 +97,17 @@ export default createStore( {
       })
       dispatch('readTodos')
     },
-
+    async reorderTodos({ state, commit }, payload) {
+      commit('reorderTodos', payload)
+      commit('setOrderTodos')
+      await axios({
+        url: `${END_POINT}/reorder`,
+        method: 'PUT',
+        headers,
+        data: {
+          todoIds: state.todos.map(todo => todo.id)
+        }
+      })
+    },
   }
 })

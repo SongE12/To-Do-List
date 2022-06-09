@@ -111,17 +111,13 @@ export default {
         animation: 0, 
         forceFallback: true, 
         onEnd: event => {
-          console.log(event)
           this.reorderTodos(event.oldIndex, event.newIndex)
         }
       })
     },
     reorderTodos(oldIndex, newIndex) {
-      const clone = { ...this.todos[oldIndex] }
-      this.todos.splice(oldIndex, 1)
-      this.todos.splice(newIndex, 0, clone)
+      this.$store.dispatch('reorderTodos', { oldIndex, newIndex })
     },
-    
   }
 }
 </script>
