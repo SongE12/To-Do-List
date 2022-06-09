@@ -76,7 +76,8 @@ export default createStore( {
       console.log(res.data)
       commit('addTodo', res.data)
     },
-    async editTodo(context, todo) {
+    async editTodo({ state, commit }, todo) {
+      commit('setOrderTodos')
       await axios({
       url: `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todo.id}`,
       method: 'PUT',
@@ -84,7 +85,7 @@ export default createStore( {
       data: {
         title: todo.title,
         done: todo.done ,
-        order: todo.order,
+        order: state.order,
         }
       })
     },
