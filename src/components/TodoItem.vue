@@ -107,7 +107,6 @@ export default {
     },
     async editTodo(todo) {
       await this.$store.dispatch('editTodo', todo)
-      await this.$store.dispatch('readTodos')
     },
     updateTitle(event) {
       this.$emit('update-title', event.target.value)
