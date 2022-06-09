@@ -87,6 +87,7 @@ export default createStore( {
         order: todo.order,
         }
       })
+      dispatch('reorderTodos')
       dispatch('readTodos')
     },
     async deleteTodo({ commit, dispatch }, id) {
